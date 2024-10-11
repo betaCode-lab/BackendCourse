@@ -1,5 +1,6 @@
 using Backend.DTOs.BeerDTOs;
 using Backend.Models;
+using Backend.Repository;
 using Backend.Services;
 using Backend.Services.Beers;
 using Backend.Validators.Beers;
@@ -23,6 +24,9 @@ builder.Services.AddHttpClient<IPostService, PostService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["BaseUrl"]!);
 });
 
+// Repository
+builder.Services.AddScoped<IRepository<Beer>, BeerRepository>();
+
 // Entity Framework
 builder.Services.AddDbContext<StoreContext>(options =>
 {
@@ -34,7 +38,7 @@ builder.Services.AddScoped<IValidator<BeerInsertDto>, BeerInsertValidator>();
 builder.Services.AddScoped<IValidator<BeerUpdateDto>, BeerUpdateValidator>();
 
 // Business logic
-builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

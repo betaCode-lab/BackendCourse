@@ -1,3 +1,4 @@
+using Backend.AutoMappers;
 using Backend.DTOs.BeerDTOs;
 using Backend.Models;
 using Backend.Repository;
@@ -36,6 +37,9 @@ builder.Services.AddDbContext<StoreContext>(options =>
 // Validators
 builder.Services.AddScoped<IValidator<BeerInsertDto>, BeerInsertValidator>();
 builder.Services.AddScoped<IValidator<BeerUpdateDto>, BeerUpdateValidator>();
+
+// Mappers
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Business logic
 builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
